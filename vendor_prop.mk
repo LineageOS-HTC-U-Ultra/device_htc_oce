@@ -284,3 +284,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.usb.rmnet.func.name=rmnet_bam \
     vendor.usb.rmnet.inst.name=rmnet \
     vendor.usb.rndis.func.name=rndis_bam
+
+# Adapt HTC legacy C audio structures for the standard HIDL 6.0 wrapper.
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.hardware.audio.primary=oce

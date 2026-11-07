@@ -1,0 +1,10 @@
+cc_library_shared {
+    name: "audio.primary.oce",
+    vendor: true,
+    relative_install_path: "hw",
+    compile_multilib: "32",
+    srcs: ["LegacyAudio.cpp"],
+    shared_libs: ["libdl", "liblog"],
+    header_libs: ["libhardware_headers", "libaudio_system_headers"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}
