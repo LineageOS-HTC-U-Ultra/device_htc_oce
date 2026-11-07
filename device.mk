@@ -499,7 +499,7 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.0-service.legacy \
+    android.hardware.wifi-service \
     ipacm \
     IPACM_cfg.xml \
     libwpa_client \
