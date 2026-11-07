@@ -1,2 +1,17 @@
 soong_namespace {
 }
+
+// HIDL 2.0 identifies this policy module as A2DP.
+install_symlink {
+    name: "audio.a2dp.default.arm.symlink",
+    vendor: true,
+    installed_location: "lib/hw/audio.a2dp.default.so",
+    symlink_target: "/vendor/lib/hw/audio.bluetooth.default.so",
+}
+
+install_symlink {
+    name: "audio.a2dp.default.arm64.symlink",
+    vendor: true,
+    installed_location: "lib64/hw/audio.a2dp.default.so",
+    symlink_target: "/vendor/lib64/hw/audio.bluetooth.default.so",
+}
