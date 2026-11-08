@@ -135,18 +135,26 @@ int openOutput(audio_hw_device_t* d, audio_io_handle_t handle, audio_devices_t d
     p->api.get_next_write_timestamp = [](const audio_stream_out_t* s, int64_t* time) {
         auto* r = legacyOutput(s); return r->get_next_write_timestamp ? r->get_next_write_timestamp(r, time) : -ENOSYS;
     };
-    p->api.set_callback = [](audio_stream_out_t* s, stream_callback_t callback, void* cookie) {
-        auto* r = legacyOutput(s); return r->set_callback ? r->set_callback(r, callback, cookie) : -ENOSYS;
-    };
-    p->api.pause = [](audio_stream_out_t* s) {
-        auto* r = legacyOutput(s); return r->pause ? r->pause(r) : -ENOSYS;
-    };
-    p->api.resume = [](audio_stream_out_t* s) {
-        auto* r = legacyOutput(s); return r->resume ? r->resume(r) : -ENOSYS;
-    };
-    p->api.drain = [](audio_stream_out_t* s, audio_drain_type_t type) {
-        auto* r = legacyOutput(s); return r->drain ? r->drain(r, type) : -ENOSYS;
-    };
+    if (real->set_callback) {
+        p->api.set_callback = [](audio_stream_out_t* s, stream_callback_t callback, void* cookie) {
+            auto* r = legacyOutput(s); return r->set_callback ? r->set_callback(r, callback, cookie) : -ENOSYS;
+        };
+    }
+    if (real->pause) {
+        p->api.pause = [](audio_stream_out_t* s) {
+            auto* r = legacyOutput(s); return r->pause ? r->pause(r) : -ENOSYS;
+        };
+    }
+    if (real->resume) {
+        p->api.resume = [](audio_stream_out_t* s) {
+            auto* r = legacyOutput(s); return r->resume ? r->resume(r) : -ENOSYS;
+        };
+    }
+    if (real->drain) {
+        p->api.drain = [](audio_stream_out_t* s, audio_drain_type_t type) {
+            auto* r = legacyOutput(s); return r->drain ? r->drain(r, type) : -ENOSYS;
+        };
+    }
     p->api.flush = [](audio_stream_out_t* s) {
         auto* r = legacyOutput(s); return r->flush ? r->flush(r) : -ENOSYS;
     };
