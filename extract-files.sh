@@ -27,7 +27,7 @@ if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
 
 CM_ROOT="$MY_DIR"/../../..
 
-HELPER="$CM_ROOT"/vendor/rr/build/tools/extract_utils.sh
+HELPER="$CM_ROOT"/tools/extract-utils/extract_utils.sh
 if [ ! -f "$HELPER" ]; then
     echo "Unable to find helper script at $HELPER"
     exit 1
@@ -53,15 +53,17 @@ fi
 function blob_fixup() {
     case "${1}" in
     vendor/lib/libwvhidl.so)
-        patchelf --replace-needed "libprotobuf-cpp-lite.so" "libprotobuf-cpp-lite-v28.so" "${2}"
+        "${PATCHELF}" --replace-needed "libprotobuf-cpp-lite.so" "libprotobuf-cpp-lite-v28.so" "${2}"
     ;;
     vendor/lib64/libwvhidl.so)
-        patchelf --replace-needed "libprotobuf-cpp-full.so" "libprotobuf-cpp-full-v28.so" "${2}"
+        "${PATCHELF}" --replace-needed "libprotobuf-cpp-full.so" "libprotobuf-cpp-full-v28.so" "${2}"
     ;;
     vendor/lib64/libsettings.so)
-        patchelf --replace-needed "libprotobuf-cpp-full.so" "libprotobuf-cpp-full-v28.so" "${2}"
+        "${PATCHELF}" --replace-needed "libprotobuf-cpp-full.so" "libprotobuf-cpp-full-v28.so" "${2}"
     ;;
-    grep -q libutils-v33.so "${2}" || "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
+    vendor/bin/pm-service)
+        "${PATCHELF}" --print-needed "${2}" | grep -Fxq "libutils-v33.so" ||
+            "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
     ;;
     esac
 }
@@ -71,8 +73,12 @@ setup_vendor "$DEVICE" "$VENDOR" "$CM_ROOT"
 
 extract "$MY_DIR"/proprietary-files.txt "$SRC"
 
-patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/bin/imsrcsd
-patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/lib-uceservice.so
-patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/lib-uceservice.so
+for blob in \
+    "$ANDROID_ROOT/$OUTDIR/proprietary/vendor/bin/imsrcsd" \
+    "$ANDROID_ROOT/$OUTDIR/proprietary/vendor/lib64/lib-uceservice.so" \
+    "$ANDROID_ROOT/$OUTDIR/proprietary/vendor/lib/lib-uceservice.so"; do
+    "${PATCHELF}" --print-needed "$blob" | grep -Fxq "libbase_shim.so" ||
+        "${PATCHELF}" --add-needed "libbase_shim.so" "$blob"
+done
 
 "$MY_DIR"/setup-makefiles.sh
