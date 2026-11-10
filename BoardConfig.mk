@@ -234,7 +234,6 @@ TARGET_LD_SHIM_LIBS := \
     /system/vendor/lib/libmmcamera_stillmore_lib.so|/system/vendor/lib/libshim_stillmore.so \
     /system/product/lib64/libdpmframework.so|libcutils_shim.so \
     /system/vendor/lib/libcameraface.so|libshim_sensor.so \
-    /system/lib64/libimsmedia_jni.so|libshim_libimsmedia.so \
     /system/lib64/lib-imsvt.so|libshim_libimsmedia.so \
     /system/lib64/lib-imsvideocodec.so|libui_shim.so
 
