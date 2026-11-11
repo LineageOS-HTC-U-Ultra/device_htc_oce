@@ -186,10 +186,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     DeviceNoCutoutOverlay
 
-# Device Settings
-#PRODUCT_PACKAGES += \
-#    DeviceSettings
-
 # Display
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
@@ -407,7 +403,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/privapp-permissions-htcshep.xml:system/etc/permissions/privapp-permissions-htcshep.xml \
     $(LOCAL_PATH)/configs/privapp-permissions-oem.xml:system/etc/permissions/privapp-permissions-oem.xml \
     $(LOCAL_PATH)/configs/privapp-permissions-oem.xml:system/product/etc/permissions/privapp-permissions-oem.xml \
-    $(LOCAL_PATH)/configs/privapp-permissions-oce.xml:system/etc/permissions/privapp-permissions-oce.xml \
     $(LOCAL_PATH)/configs/qti_whitelist.xml:system/etc/sysconfig/qti_whitelist.xml
 
 # HotwordEnrollement app permissions
