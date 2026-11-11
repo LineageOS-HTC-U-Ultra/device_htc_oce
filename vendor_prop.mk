@@ -156,10 +156,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # IMS
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.dbg.volte_avail_ovr=1 \
-    persist.dbg.vt_avail_ovr=1 \
+    persist.dbg.vt_avail_ovr=0 \
     persist.data.iwlan.enable=false \
     persist.dbg.ims_volte_enable=1 \
-    persist.dbg.wfc_avail_ovr=1 \
+    persist.dbg.wfc_avail_ovr=0 \
     service.qti.ims.enabled=1 \
     persist.radio.videopause.mode=1 \
     persist.volte_enabled_by_hw=1 \
