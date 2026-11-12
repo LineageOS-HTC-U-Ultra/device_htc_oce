@@ -240,6 +240,7 @@ service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
     class main
     user system
     group system wakelock
+    capabilities DAC_OVERRIDE WAKE_ALARM BLOCK_SUSPEND
     writepid /dev/cpuset/system-background/tasks
 
 service ppd /vendor/bin/mm-pp-dpps
